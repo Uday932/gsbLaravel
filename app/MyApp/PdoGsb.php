@@ -2,6 +2,7 @@
 namespace App\MyApp;
 use PDO;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Str; //pour générer des chaînes aléatoires pour le champ id
 class PdoGsb{
         private static $serveur;
         private static $bdd;
@@ -211,8 +212,120 @@ class PdoGsb{
 		$this->monPdo->exec($req);
 	}
 
+//Mission 2A
+
+	public function afficherVisiteurs(){
+		$req = "SELECT id, nom, prenom, login, mdp, adresse, cp, ville, dateEmbauche FROM visiteur";
+		$res = $this->monPdo->prepare($req);
+		$res->execute();
+		$laLigne = $res->fetchAll(PDO::FETCH_ASSOC);
+		return $laLigne;
+	}
+
+	function genererLogin($prenom, $nom) {
+		if (empty($prenom) || empty($nom)) {
+			return null;
+		}
+		$initialePrenom = strtoupper(substr($prenom, 0, 1));
+		$login = $initialePrenom . $nom;
+	
+		return $login;
+	}
+
+	public function majVisiteur($nom,$prenom,$login,$adresse,$cp,$ville,$de){
+		$id = Str::random(3);
+		$mdp = Str::random(5);
+		$req = "INSERT INTO visiteur (id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche)
+		VALUES (:id,:nom,:prenom,:login,:mdp,:adresse,:cp,:ville,:dateEmbauche)";
+		$res = $this->monPdo->prepare($req);
+
+		$res->bindParam(':id', $id, PDO::PARAM_STR);
+		$res->bindParam(':nom', $nom, PDO::PARAM_STR); 
+		$res->bindParam(':prenom', $prenom, PDO::PARAM_STR); 
+		$res->bindParam(':login', $login, PDO::PARAM_STR);
+		$res->bindParam(':mdp', $mdp, PDO::PARAM_STR);
+		$res->bindParam(':adresse', $adresse, PDO::PARAM_STR); 
+		$res->bindParam(':cp', $cp, PDO::PARAM_STR); 
+		$res->bindParam(':ville', $ville, PDO::PARAM_STR); 
+		$res->bindParam(':dateEmbauche', $de, PDO::PARAM_STR);  
+
+		$res->execute();
+		$laLigne = $res->fetchAll(PDO::FETCH_ASSOC);
+		return $laLigne;
+	}
+
+	public function afficherLeVisiteur($id)
+	{
+		$req = "SELECT id, nom, prenom, login, mdp, adresse, cp, ville, dateEmbauche FROM visiteur WHERE id = :id";
+		$res = $this->monPdo->prepare($req);
+		$res->bindParam(':id', $id, PDO::PARAM_STR); 
+		$res->execute();
+		$laLigne = $res->fetch(PDO::FETCH_ASSOC);
+		return $laLigne;
+	}
+
+	public function updateVisiteur($nom,$prenom,$adresse,$cp,$ville,$de)
+	{
+		$req = "UPDATE visiteur v
+				set v.nom = :nom, prenom = :prenom, adresse = :adresse, cp = :cp, ville = :ville, dateEmbauche = :de WHERE id = :id";
+		$res = $this->monPdo->prepare($req);
+		$res->bindParam(':nom', $nom, PDO::PARAM_STR); 
+		$res->bindParam(':prenom', $prenom, PDO::PARAM_STR); 
+		$res->bindParam(':adresse', $adresse, PDO::PARAM_STR); 
+		$res->bindParam(':cp', $cp, PDO::PARAM_STR); 
+		$res->bindParam(':ville', $ville, PDO::PARAM_STR); 
+		$res->bindParam(':de', $de, PDO::PARAM_STR); 
+		$res->bindParam(':id', $id, PDO::PARAM_STR); 
+		$res->execute();
+		$laLigne = $res->fetch(PDO::FETCH_ASSOC);
+		return $laLigne;
+	}
+
+	//11 et 12
+
+	public function afficherVisiteursParDE(){
+		$req = "SELECT id, nom, prenom, login, mdp, adresse, cp, ville, dateEmbauche FROM visiteur
+				ORDER BY dateEmbauche";
+		$res = $this->monPdo->prepare($req);
+		//$lesVisiteurs = array();
+		$res->execute();
+		$laLigne = $res->fetchAll(PDO::FETCH_ASSOC);
+		return $laLigne;
+	}
+//Fin Mission 2A
 
 
+//Mission 2B
 
+	public function getLesMois(){
+		$req = "select fichefrais.mois as mois from  fichefrais
+		order by fichefrais.mois desc ";
+		$res = $this->monPdo->query($req);
+		$lesMois =array();
+		$laLigne = $res->fetch();
+		while($laLigne != null)	{
+			$mois = $laLigne['mois'];
+			$numAnnee =substr( $mois,0,4);
+			$numMois =substr( $mois,4,2);
+			$lesMois["$mois"]=array(
+			"mois"=>"$mois",
+			"numAnnee"  => "$numAnnee",
+			"numMois"  => "$numMois"
+			);
+			$laLigne = $res->fetch(); 		
+		}
+		return $lesMois;
+	}
 
+	public function afficherVisiteurs2B(){
+		$req = "SELECT id, nom, prenom, login, mdp, adresse, cp, ville, dateEmbauche as visiteur FROM visiteur";
+		$res = $this->monPdo->prepare($req);
+		$res->execute();
+		$laLigne = $res->fetchAll(PDO::FETCH_ASSOC);
+		return $laLigne;
+	}
+
+	/*public function afficherFicheFrais() {
+		$req = "SELECT * "
+	}*/
 }

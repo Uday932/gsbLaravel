@@ -16,6 +16,7 @@
       @yield('menu') 
       @yield('contenu1') 
       @yield('contenu2') 
+      @yield('contenu3') <!-- j'ai rajouté cela -->
      </div>
         
     </body>

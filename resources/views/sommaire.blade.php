@@ -16,10 +16,16 @@
                   <li class="smenu">
                     <a href="{{ route('chemin_selectionMois') }}" title="Consultation de mes fiches de frais">Mes fiches de frais</a>
                   </li>
+                  <li class="smenu">
+                    <a href="{{ route('chemin_voirVisiteur') }}" title="Gérer les visiteurs">Gérer les visiteurs 2.A</a>
+                  </li>
+                  <li class="smenu">
+                    <a href="{{ route('chemin_formulaireFicheFrais') }}" title="Valider fiche frais">Valider une fiche frais 2.B</a>
+                  </li>
                <li class="smenu">
-                <a href="{{ route('chemin_deconnexion') }}"" title="Se déconnecter">Déconnexion</a>
+                <a href="{{ route('chemin_deconnexion') }}" title="Se déconnecter">Déconnexion</a>
                   </li>
                 </ul>
                
         </div>
-    @endsection          
+    @endsection
