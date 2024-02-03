@@ -3,7 +3,7 @@
       <div id="contenu">
         <h2>Mes fiches de frais</h2>
         <h3>Mois à sélectionner : </h3>
-      <form action="{{ route('chemin_listeFrais') }}" method="post">
+      <form action="{{ route('chemin_ficheFrais') }}" method="post">
         {{ csrf_field() }} <!-- laravel va ajouter un champ caché avec un token -->
         <div class="corpsForm"><p>
           <label for="lstVisiteur" >Visiteur : </label>

@@ -318,7 +318,7 @@ class PdoGsb{
 	}
 
 	public function afficherVisiteurs2B(){
-		$req = "SELECT id, nom, prenom, login, mdp, adresse, cp, ville, dateEmbauche as visiteur FROM visiteur";
+		$req = "SELECT id, nom, prenom, login, mdp, adresse, cp, ville, dateEmbauche as visiteur FROM visiteur ORDER BY nom";
 		$res = $this->monPdo->prepare($req);
 		$res->execute();
 		$laLigne = $res->fetchAll(PDO::FETCH_ASSOC);
