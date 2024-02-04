@@ -11,7 +11,7 @@
             @foreach($lesVisiteurs as $unVisiteur)
                 <option selected value="{{ $unVisiteur['id'] }}">
                     {{ $unVisiteur['nom']}} {{$unVisiteur['prenom'] }} 
-                </option>
+                </option> 
             @endforeach
           </select>
         </p>

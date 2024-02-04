@@ -16,6 +16,7 @@ class ficheFraisController2B extends Controller {
     public function selectionnerVisiteur(){
         if (session()->has('visiteur')) {
             $visiteur = session('visiteur');
+            $lesVisiteurs = null;
             $lesVisiteurs = PdoGsb::afficherVisiteurs2B();
             $lesMois = PdoGsb::getLesMois();
 		    // Afin de sélectionner par défaut le dernier mois dans la zone de liste
@@ -38,40 +39,11 @@ class ficheFraisController2B extends Controller {
     }
 
     //affichage fiche frais après sélection du visiteur
-    public function voirFicheFrais(Request $request) {
-        if( session('visiteur')!= null){
-            $visiteur = session('visiteur');
-            $idVisiteur = $request->input('lstVisiteur'); //eh non. ici il faut récupérer l'id du visiteur sélectionné 
-            $leMois = $request['lstMois']; 
-            $lesVisiteurs = PdoGsb::afficherVisiteurs2B();
-		    $lesMois = PdoGsb::getLesMois();
-            $lesFraisForfait = PdoGsb::getLesFraisForfait($idVisiteur,$leMois);         //trouver un moyen pour rechercher une fiche frais correspondant à la valeur choisit
-		    $lesInfosFicheFrais = PdoGsb::getLesInfosFicheFrais($idVisiteur,$leMois);   // dans la liste déroulante
-		    $numAnnee = MyDate::extraireAnnee( $leMois);
-		    $numMois = MyDate::extraireMois( $leMois);
-            if($lesInfosFicheFrais) {
-		    $libEtat = $lesInfosFicheFrais['libEtat'];
-		    $montantValide = $lesInfosFicheFrais['montantValide'];
-            $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
-            $dateModif =  $lesInfosFicheFrais['dateModif'];
-            $dateModifFr = MyDate::getFormatFrançais($dateModif);
-            $vue = view('listeFicheFraisDuVisiteur')->with('lesMois', $lesMois)
-                    ->with('lesVisiteurs', $lesVisiteurs)
-                    ->with('leMois', $leMois)->with('numAnnee',$numAnnee)
-                    ->with('numMois',$numMois)->with('libEtat',$libEtat)
-                    ->with('montantValide',$montantValide)
-                    ->with('nbJustificatifs',$nbJustificatifs)
-                    ->with('dateModif',$dateModifFr)
-                    ->with('lesFraisForfait',$lesFraisForfait)
-                    ->with('visiteur',$visiteur);
-            return $vue;
-            }
-            else {
-                
-            }
-        }
-        else{
-            return view('connexion')->with('erreurs',null);
-        }
+    public function voirLesFicheFrais(Request $request) {
+        if (session('visiteur') != null) {
+            
+                return view('testView');
+            } 
     }
+    
 }

@@ -100,7 +100,8 @@ Route::get('formulaireFicheFrais',[
         'uses'=>'ficheFraisController2B@selectionnerVisiteur'
 ]);
 
-Route::post('voirUneFicheFrais',[
+Route::get('voirUneFicheFrais',[
         'as'=>'chemin_ficheFrais',
-        'uses'=>'ficheFraisController2B@voirFicheFrais'
+        'uses'=>'ficheFraisController2B@voirLesFicheFrais'
 ]);
+
