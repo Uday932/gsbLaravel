@@ -41,14 +41,15 @@ class ficheFraisController2B extends Controller {
     public function voirFicheFrais(Request $request) {
         if( session('visiteur')!= null){
             $visiteur = session('visiteur');
-            $idVisiteur = $visiteur['id'];
+            $idVisiteur = $request->input('lstVisiteur'); //eh non. ici il faut récupérer l'id du visiteur sélectionné 
             $leMois = $request['lstMois']; 
             $lesVisiteurs = PdoGsb::afficherVisiteurs2B();
 		    $lesMois = PdoGsb::getLesMois();
-            $lesFraisForfait = PdoGsb::getLesFraisForfait($idVisiteur,$leMois);
-		    $lesInfosFicheFrais = PdoGsb::getLesInfosFicheFrais($idVisiteur,$leMois);
+            $lesFraisForfait = PdoGsb::getLesFraisForfait($idVisiteur,$leMois);         //trouver un moyen pour rechercher une fiche frais correspondant à la valeur choisit
+		    $lesInfosFicheFrais = PdoGsb::getLesInfosFicheFrais($idVisiteur,$leMois);   // dans la liste déroulante
 		    $numAnnee = MyDate::extraireAnnee( $leMois);
 		    $numMois = MyDate::extraireMois( $leMois);
+            if($lesInfosFicheFrais) {
 		    $libEtat = $lesInfosFicheFrais['libEtat'];
 		    $montantValide = $lesInfosFicheFrais['montantValide'];
             $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
@@ -64,6 +65,10 @@ class ficheFraisController2B extends Controller {
                     ->with('lesFraisForfait',$lesFraisForfait)
                     ->with('visiteur',$visiteur);
             return $vue;
+            }
+            else {
+                
+            }
         }
         else{
             return view('connexion')->with('erreurs',null);

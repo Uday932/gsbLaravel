@@ -298,7 +298,7 @@ class PdoGsb{
 //Mission 2B
 
 	public function getLesMois(){
-		$req = "select fichefrais.mois as mois from  fichefrais
+		$req = "select fichefrais.mois as mois from fichefrais
 		order by fichefrais.mois desc ";
 		$res = $this->monPdo->query($req);
 		$lesMois =array();
@@ -324,8 +324,5 @@ class PdoGsb{
 		$laLigne = $res->fetchAll(PDO::FETCH_ASSOC);
 		return $laLigne;
 	}
-
-	/*public function afficherFicheFrais() {
-		$req = "SELECT * "
-	}*/
+	
 }

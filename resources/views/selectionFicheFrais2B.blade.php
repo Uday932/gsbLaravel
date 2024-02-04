@@ -9,7 +9,7 @@
           <label for="lstVisiteur" >Visiteur : </label>
           <select id="lstVisiteur" name="lstVisiteur">
             @foreach($lesVisiteurs as $unVisiteur)
-                <option selected value="{{ $unVisiteur['visiteur'] }}">
+                <option selected value="{{ $unVisiteur['id'] }}">
                     {{ $unVisiteur['nom']}} {{$unVisiteur['prenom'] }} 
                 </option>
             @endforeach
