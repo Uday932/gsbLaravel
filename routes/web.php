@@ -84,7 +84,7 @@ Route::get('edit{id}',[
         'uses'=>'gererVisiteurController@edit'
 ]);
 
-Route::post('saveEdit',[
+Route::post('saveEdit/{id}',[
         'as' => 'chemin_saveVisiteur',
         'uses' => 'gererVisiteurController@saveEdit'
 ]);
@@ -100,8 +100,8 @@ Route::get('formulaireFicheFrais',[
         'uses'=>'ficheFraisController2B@selectionnerVisiteur'
 ]);
 
-Route::get('voirUneFicheFrais',[
+Route::post('voirUneFicheFrais',[
         'as'=>'chemin_ficheFrais',
-        'uses'=>'ficheFraisController2B@voirLesFicheFrais'
+        'uses'=>'ficheFraisController2B@voirFicheFrais'
 ]);
 

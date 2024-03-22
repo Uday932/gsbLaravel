@@ -19,9 +19,9 @@
                   <li class="smenu">
                     <a href="{{ route('chemin_voirVisiteur') }}" title="Gérer les visiteurs">Gérer les visiteurs 2.A</a>
                   </li>
-                  <li class="smenu">
-                    <a href="{{ route('chemin_ficheFrais') }}" title="Valider fiche frais">Valider une fiche frais 2.B</a>
-                  </li>
+                  <!-- <li class="smenu">
+                    <a href="{{ route('chemin_formulaireFicheFrais') }}" title="Valider fiche frais">Valider une fiche frais 2.B</a>
+                  </li> -->
                <li class="smenu">
                 <a href="{{ route('chemin_deconnexion') }}" title="Se déconnecter">Déconnexion</a>
                   </li>

@@ -1,8 +1,8 @@
 @extends ('selectionFicheFrais2B')
 @section('contenu2')
 
-{{-- @includeWhen($erreurs != null, 'msgerreurs', ['erreurs' => $erreurs]) 
-@includeWhen($message != "", 'message', ['message' => $message]) --}}
+@includeWhen($erreurs != null, 'msgerreurs', ['erreurs' => $erreurs]) 
+
 <h3>Fiche de frais du mois {{ $numMois }}-{{ $numAnnee }} : 
     </h3>
     <div class="encadre">

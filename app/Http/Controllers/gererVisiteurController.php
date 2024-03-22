@@ -74,21 +74,39 @@ class gererVisiteurController extends Controller {
     }
 
     public function saveEdit(Request $request)
-    {
-        if( session('visiteur') != null){
+    {   
+        if(session('visiteur') != null) {
             $visiteur = session('visiteur');
-            $id = $request['id'];
-            $nom = $request['nom'];                             
-            $prenom = $request['prenom'];
-            $login = PdoGsb::genererLogin($prenom,$nom);
-            $adresse = $request['adresse'];
-            $cp = $request['cp'];
-            $ville = $request['ville'];
-            $time = strtotime($request['DE']);
-            $newformat = date('Y-m-d',$time);
-            $message = "Les informations ont bien été ajoutés.";
+            $id = $request->input('id'); // Utilisez input() pour récupérer les valeurs du formulaire
+            // Récupérez les autres données du formulaire
+            // Mettez à jour l'utilisateur avec les nouvelles données
+            // Après la mise à jour, récupérez les données mises à jour de l'utilisateur
+            $nom = $request->input('nom');
+            $prenom = $request->input('prenom');
+            $login = PdoGsb::genererLogin($prenom, $nom);
+            $adresse = $request->input('adresse');
+            $cp = $request->input('cp');
+            $ville = $request->input('ville');
+            $time = strtotime($request->input('DE'));
+            $newformat = date('Y-m-d', $time);
+            PdoGsb::majVisiteur($nom, $prenom, $login, $adresse, $cp, $ville, $newformat);
+            $user = PdoGsb::afficherLeVisiteur($id); // Récupérez les données de l'utilisateur après la mise à jour
+
+            // Redirigez l'utilisateur vers la page d'édition avec les nouvelles données
+            return redirect()->route('chemin_modifier', ['id' => $id])->with('message', 'Les informations ont bien été modifiées.')
+                ->with('visiteur', $visiteur)
+                ->with('user', $user)
+                ->with('method', $request->method());
+        } else {
+            // Gérez le cas où la session visiteur est nulle
+            $message = "";
+            return view('edit')
+                ->with('visiteur', $visiteur)
+                ->with('message', $message)
+                ->with('method', $request->method());
         }
     }
+
 
 
 

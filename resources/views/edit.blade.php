@@ -2,7 +2,7 @@
 @section('contenu3')
 
 <div id="contenu">
-    <form method="post"  action="{{ route('chemin_saveVisiteur') }}">
+    <form method="post"  action="{{ route('chemin_saveVisiteur', ['id' => $user['id']])}}">
                     {{ csrf_field() }} <!-- laravel va ajouter un champ caché avec un token -->
                     <input type="hidden" name="id" value="">
         <div class="corpsForm">
