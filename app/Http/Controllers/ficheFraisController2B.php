@@ -16,6 +16,7 @@ class ficheFraisController2B extends Controller {
     public function selectionnerVisiteur(){
         if (session()->has('visiteur')) {
             $visiteur = session('visiteur');
+            $lesVisiteurs = null;
             $lesVisiteurs = PdoGsb::afficherVisiteurs2B();
             $lesMois = PdoGsb::getLesMois();
 		    // Afin de sélectionner par défaut le dernier mois dans la zone de liste
@@ -39,39 +40,46 @@ class ficheFraisController2B extends Controller {
 
     //affichage fiche frais après sélection du visiteur
     public function voirFicheFrais(Request $request) {
-        if( session('visiteur')!= null){
+        if (session('visiteur') != null) {
             $visiteur = session('visiteur');
-            $idVisiteur = $request->input('lstVisiteur'); //eh non. ici il faut récupérer l'id du visiteur sélectionné 
-            $leMois = $request['lstMois']; 
+            $idVisiteur = $request->input('lstVisiteur');
+            $leMois = $request->input('lstMois');
+            
             $lesVisiteurs = PdoGsb::afficherVisiteurs2B();
-		    $lesMois = PdoGsb::getLesMois();
-            $lesFraisForfait = PdoGsb::getLesFraisForfait($idVisiteur,$leMois);         //trouver un moyen pour rechercher une fiche frais correspondant à la valeur choisit
-		    $lesInfosFicheFrais = PdoGsb::getLesInfosFicheFrais($idVisiteur,$leMois);   // dans la liste déroulante
-		    $numAnnee = MyDate::extraireAnnee( $leMois);
-		    $numMois = MyDate::extraireMois( $leMois);
-            if($lesInfosFicheFrais) {
-		    $libEtat = $lesInfosFicheFrais['libEtat'];
-		    $montantValide = $lesInfosFicheFrais['montantValide'];
-            $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
-            $dateModif =  $lesInfosFicheFrais['dateModif'];
-            $dateModifFr = MyDate::getFormatFrançais($dateModif);
-            $vue = view('listeFicheFraisDuVisiteur')->with('lesMois', $lesMois)
-                    ->with('lesVisiteurs', $lesVisiteurs)
-                    ->with('leMois', $leMois)->with('numAnnee',$numAnnee)
-                    ->with('numMois',$numMois)->with('libEtat',$libEtat)
-                    ->with('montantValide',$montantValide)
-                    ->with('nbJustificatifs',$nbJustificatifs)
-                    ->with('dateModif',$dateModifFr)
-                    ->with('lesFraisForfait',$lesFraisForfait)
-                    ->with('visiteur',$visiteur);
-            return $vue;
-            }
-            else {
+            $lesMois = PdoGsb::getLesMois();
+    
+            // Utilisez la méthode input() pour récupérer la valeur du formulaire
+            $lesInfosFicheFrais = PdoGsb::getLesInfosFicheFrais($idVisiteur, $leMois);
+    
+            if (!$lesInfosFicheFrais) {                                                                             //Faire comme dans controller 'gererFraisController'
+                                                                                                                    // mettre la vue dans une variable $view
+                // Affiche un message d'erreur et retourne à la vue précédente
+                $erreurs[] = "Il n'y a pas de fiche frais pour le visiteur sélectionné et le mois choisi.";
+                return view('msgerreurs')->with('erreurs', $erreurs);
+            } else {
+                // Continuez avec le reste du code pour afficher la fiche frais
+                $numAnnee = MyDate::extraireAnnee($leMois);
+                $numMois = MyDate::extraireMois($leMois);
                 
+                $libEtat = $lesInfosFicheFrais['libEtat'];
+                $montantValide = $lesInfosFicheFrais['montantValide'];
+                $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
+                $dateModif =  $lesInfosFicheFrais['dateModif'];
+                $dateModifFr = MyDate::getFormatFrançais($dateModif);
+    
+                return view('listeFicheFraisDuVisiteur')->with('lesMois', $lesMois)
+                    ->with('lesVisiteurs', $lesVisiteurs)
+                    ->with('leMois', $leMois)->with('numAnnee', $numAnnee)
+                    ->with('numMois', $numMois)->with('libEtat', $libEtat)
+                    ->with('montantValide', $montantValide)
+                    ->with('nbJustificatifs', $nbJustificatifs)
+                    ->with('dateModif', $dateModifFr)
+                    ->with('lesFraisForfait', PdoGsb::getLesFraisForfait($idVisiteur, $leMois)) // Ajout des frais forfait ici
+                    ->with('visiteur', $visiteur);
             }
-        }
-        else{
-            return view('connexion')->with('erreurs',null);
+        } else {
+            return view('connexion')->with('erreurs', null);
         }
     }
+    
 }
