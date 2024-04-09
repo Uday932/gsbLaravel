@@ -232,27 +232,27 @@ class PdoGsb{
 		return $login;
 	}
 
-	public function majVisiteur($nom,$prenom,$login,$adresse,$cp,$ville,$de){
-		$id = Str::random(3);
-		$mdp = Str::random(5);
-		$req = "INSERT INTO visiteur (id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche)
-		VALUES (:id,:nom,:prenom,:login,:mdp,:adresse,:cp,:ville,:dateEmbauche)";
-		$res = $this->monPdo->prepare($req);
+	// public function majVisiteur($nom,$prenom,$login,$adresse,$cp,$ville,$de){
+	// 	$id = Str::random(3);
+	// 	$mdp = Str::random(5);
+	// 	$req = "INSERT INTO visiteur (id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche)
+	// 	VALUES (:id,:nom,:prenom,:login,:mdp,:adresse,:cp,:ville,:dateEmbauche)";
+	// 	$res = $this->monPdo->prepare($req);
 
-		$res->bindParam(':id', $id, PDO::PARAM_STR);
-		$res->bindParam(':nom', $nom, PDO::PARAM_STR); 
-		$res->bindParam(':prenom', $prenom, PDO::PARAM_STR); 
-		$res->bindParam(':login', $login, PDO::PARAM_STR);
-		$res->bindParam(':mdp', $mdp, PDO::PARAM_STR);
-		$res->bindParam(':adresse', $adresse, PDO::PARAM_STR); 
-		$res->bindParam(':cp', $cp, PDO::PARAM_STR); 
-		$res->bindParam(':ville', $ville, PDO::PARAM_STR); 
-		$res->bindParam(':dateEmbauche', $de, PDO::PARAM_STR);  
+	// 	$res->bindParam(':id', $id, PDO::PARAM_STR);
+	// 	$res->bindParam(':nom', $nom, PDO::PARAM_STR); 
+	// 	$res->bindParam(':prenom', $prenom, PDO::PARAM_STR); 
+	// 	$res->bindParam(':login', $login, PDO::PARAM_STR);
+	// 	$res->bindParam(':mdp', $mdp, PDO::PARAM_STR);
+	// 	$res->bindParam(':adresse', $adresse, PDO::PARAM_STR); 
+	// 	$res->bindParam(':cp', $cp, PDO::PARAM_STR); 
+	// 	$res->bindParam(':ville', $ville, PDO::PARAM_STR); 
+	// 	$res->bindParam(':dateEmbauche', $de, PDO::PARAM_STR);  
 
-		$res->execute();
-		$laLigne = $res->fetchAll(PDO::FETCH_ASSOC);
-		return $laLigne;
-	}
+	// 	$res->execute();
+	// 	$laLigne = $res->fetchAll(PDO::FETCH_ASSOC);
+	// 	return $laLigne;
+	// }
 
 	public function afficherLeVisiteur($id)
 	{
@@ -264,10 +264,10 @@ class PdoGsb{
 		return $laLigne;
 	}
 
-	public function updateVisiteur($nom,$prenom,$adresse,$cp,$ville,$de)
+	public function updateVisiteur($id,$nom,$prenom,$adresse,$cp,$ville,$de)
 	{
-		$req = "UPDATE visiteur v
-				set v.nom = :nom, prenom = :prenom, adresse = :adresse, cp = :cp, ville = :ville, dateEmbauche = :de WHERE id = :id";
+		$req = "UPDATE visiteur
+				set nom = :nom, prenom = :prenom, adresse = :adresse, cp = :cp, ville = :ville, dateEmbauche = :de WHERE id = :id";
 		$res = $this->monPdo->prepare($req);
 		$res->bindParam(':nom', $nom, PDO::PARAM_STR); 
 		$res->bindParam(':prenom', $prenom, PDO::PARAM_STR); 
@@ -276,9 +276,10 @@ class PdoGsb{
 		$res->bindParam(':ville', $ville, PDO::PARAM_STR); 
 		$res->bindParam(':de', $de, PDO::PARAM_STR); 
 		$res->bindParam(':id', $id, PDO::PARAM_STR); 
+
 		$res->execute();
-		$laLigne = $res->fetch(PDO::FETCH_ASSOC);
-		return $laLigne;
+		
+		return true;
 	}
 
 	//11 et 12

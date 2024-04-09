@@ -49,7 +49,7 @@ class gererVisiteurController extends Controller {
             $time = strtotime($request['DE']);
             $newformat = date('Y-m-d',$time);
             $message = "Les informations ont bien été ajoutés.";
-            PdoGsb::majVisiteur($nom,$prenom,$login,$adresse,$cp,$ville,$newformat);                      
+            PdoGsb::majVisiteur($nom,$prenom,$login,$adresse,$cp,$ville,$newformat);                  
             $view = view('ajouterVisiteur')
                     ->with('visiteur',$visiteur)
                     ->with('message',$message)
@@ -73,42 +73,27 @@ class gererVisiteurController extends Controller {
         }
     }
 
-    public function saveEdit(Request $request)
-    {   
-        if(session('visiteur') != null) {
-            $visiteur = session('visiteur');
-            $id = $request->input('id'); // Utilisez input() pour récupérer les valeurs du formulaire
-            // Récupérez les autres données du formulaire
-            // Mettez à jour l'utilisateur avec les nouvelles données
-            // Après la mise à jour, récupérez les données mises à jour de l'utilisateur
+    public function saveEdit(Request $request, $id)
+    {
+        if( session('visiteur') != null){
+            // Utilisez $request pour accéder aux données du formulaire
             $nom = $request->input('nom');
             $prenom = $request->input('prenom');
-            $login = PdoGsb::genererLogin($prenom, $nom);
             $adresse = $request->input('adresse');
             $cp = $request->input('cp');
             $ville = $request->input('ville');
-            $time = strtotime($request->input('DE'));
-            $newformat = date('Y-m-d', $time);
-            PdoGsb::majVisiteur($nom, $prenom, $login, $adresse, $cp, $ville, $newformat);
-            $user = PdoGsb::afficherLeVisiteur($id); // Récupérez les données de l'utilisateur après la mise à jour
+            $dateEmbauche = $request->input('DE');
 
-            // Redirigez l'utilisateur vers la page d'édition avec les nouvelles données
-            return redirect()->route('chemin_modifier', ['id' => $id])->with('message', 'Les informations ont bien été modifiées.')
-                ->with('visiteur', $visiteur)
-                ->with('user', $user)
-                ->with('method', $request->method());
-        } else {
-            // Gérez le cas où la session visiteur est nulle
-            $message = "";
-            return view('edit')
-                ->with('visiteur', $visiteur)
-                ->with('message', $message)
-                ->with('method', $request->method());
+            // Utilisez $id pour l'ID de l'utilisateur
+
+            // Appel à la fonction de mise à jour avec les bonnes données
+            PdoGsb::updateVisiteur($id, $nom, $prenom, $adresse, $cp, $ville, $dateEmbauche);
+            
+            // Redirection vers la page d'édition avec un message de succès
+            $message = "Les informations ont bien été modifiées.";
+            return redirect()->route('chemin_voirVisiteur')->with('message', $message);
         }
     }
-
-
-
 
     /*public function supprimerVisiteur(Request $request)
     {
