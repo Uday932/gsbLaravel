@@ -96,8 +96,8 @@ Route::get('/generer-pdf-visiteurs', 'gererVisiteurController@genererPDFVisiteur
 
 Route::get('supprimerVisiteur',[
         'as'=>'chemin_supprimerVisiteur',
-        'uses'=>'gererVisiteurControlle@supprimerVisiteur'
-]);
+        'uses'=>'gererVisiteurController@supprimerVisiteur' // voir en ajoutant une page de confirmation : "êtes-vous de vouloir supprimer le visiteur sélectionné ?"
+]);                                                         // pour le passage en paramètre l'id dans le chemin 
 
         /*-------------------- Mission 2B ---------------------------*/
 

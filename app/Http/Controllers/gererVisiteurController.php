@@ -64,8 +64,8 @@ class gererVisiteurController extends Controller {
 
     public function edit($id)
     {
-        $visiteur = session('visiteur');
         if( session('visiteur') != null){
+        $visiteur = session('visiteur');
         $user = PdoGsb::afficherLeVisiteur($id); 
         return view('edit')
             ->with('visiteur', $visiteur)
@@ -77,9 +77,9 @@ class gererVisiteurController extends Controller {
 
     public function saveEdit(Request $request, $id)
     {
-        $visiteur = session('visiteur');
         if( session('visiteur') != null){
             // Utilisez $request pour accéder aux données du formulaire
+            $visiteur = session('visiteur');
             $nom = $request->input('nom');
             $prenom = $request->input('prenom');
             $adresse = $request->input('adresse');
@@ -116,7 +116,10 @@ class gererVisiteurController extends Controller {
     public function supprimerVisiteur($id) 
     {
         if(session("visiteur") != null) {
-
+            $visiteur = session('visiteur');
+            $valeurFonction = PdoGsb::supprimerVisiteur($id);
+            $lesVisiteurs = PdoGsb::afficherVisiteurs();
+            return view('listevisiteur')->with('lesVisiteurs', $lesVisiteurs)->with('visiteur',$visiteur);;
         }
     }
 
