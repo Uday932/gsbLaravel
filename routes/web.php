@@ -92,6 +92,12 @@ Route::post('saveEdit/{id}',[
 Route::get('/generer-pdf-visiteurs', 'gererVisiteurController@genererPDFVisiteurs')->name('generer.pdf.visiteurs');
 
 
+//extension éventuelle de la 2.A ?
+
+Route::get('supprimerVisiteur',[
+        'as'=>'chemin_supprimerVisiteur',
+        'uses'=>'gererVisiteurControlle@supprimerVisiteur'
+]);
 
         /*-------------------- Mission 2B ---------------------------*/
 

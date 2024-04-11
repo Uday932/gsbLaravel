@@ -277,9 +277,9 @@ class PdoGsb{
 		$res->bindParam(':de', $de, PDO::PARAM_STR); 
 		$res->bindParam(':id', $id, PDO::PARAM_STR); 
 
-		$res->execute();
+		$reussi = $res->execute();
 		
-		return true;
+		return $reussi;
 	}
 
 	//11 et 12
@@ -293,6 +293,18 @@ class PdoGsb{
 		$laLigne = $res->fetchAll(PDO::FETCH_ASSOC);
 		return $laLigne;
 	}
+
+	//extension éventuelle de la 2.A ?
+
+	public function supprimerVisiteur($id) {
+		$req = "DELETE FROM visiteur WHERE id = :id";
+		$res = $this->monPdo->prepare($req);
+		$res->bindParam(':id', $id, PDO::PARAM_STR);
+		$res->execute();
+
+		return true;
+	}
+
 //Fin Mission 2A
 
 

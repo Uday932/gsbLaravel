@@ -8,7 +8,7 @@
         <div class="corpsForm">
             <fieldset>
                 <legend>Veuillez écrire les informations du visiteur</legend>
-                {{-- @includeWhen($erreurs != null, 'msgerreurs', ['erreurs' => $erreurs]) --}}
+                @includeWhen($erreurs != null, 'msgerreurs', ['erreurs' => $erreurs])
                 @includeWhen($message != "", 'message', ['message' => $message])
                     <p>
                     <div>

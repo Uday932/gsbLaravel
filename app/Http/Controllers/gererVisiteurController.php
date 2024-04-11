@@ -69,12 +69,15 @@ class gererVisiteurController extends Controller {
         $user = PdoGsb::afficherLeVisiteur($id); 
         return view('edit')
             ->with('visiteur', $visiteur)
-            ->with('user', $user);
+            ->with('user', $user)
+            ->with('erreurs',null)
+            ->with('message',"");
         }
     }
 
     public function saveEdit(Request $request, $id)
     {
+        $visiteur = session('visiteur');
         if( session('visiteur') != null){
             // Utilisez $request pour accéder aux données du formulaire
             $nom = $request->input('nom');
@@ -87,11 +90,33 @@ class gererVisiteurController extends Controller {
             // Utilisez $id pour l'ID de l'utilisateur
 
             // Appel à la fonction de mise à jour avec les bonnes données
-            PdoGsb::updateVisiteur($id, $nom, $prenom, $adresse, $cp, $ville, $dateEmbauche);
+            $valeurFonction = PdoGsb::updateVisiteur($id, $nom, $prenom, $adresse, $cp, $ville, $dateEmbauche);
             
             // Redirection vers la page d'édition avec un message de succès
-            $message = "Les informations ont bien été modifiées.";
-            return redirect()->route('chemin_voirVisiteur')->with('message', $message);
+
+            $user = PdoGsb::afficherLeVisiteur($id); 
+            $view = view('edit')
+                    ->with('visiteur', $visiteur)
+                    ->with('user', $user);
+
+            if($valeurFonction == true)
+            {
+                $message = "Les données du visiteur ont été mis à jour.";
+                $erreurs = null;
+            }
+            else {
+                $erreurs[] = "Une erreur s'est produite. Veuillez réessayer";
+                $message = '';
+            }
+            return $view->with('erreurs',$erreurs)
+                        ->with('message',$message);
+        }
+    }
+
+    public function supprimerVisiteur($id) 
+    {
+        if(session("visiteur") != null) {
+
         }
     }
 
