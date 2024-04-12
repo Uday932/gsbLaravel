@@ -27,20 +27,12 @@
             <td>
                 {{-- <a href="{{ url('edit/'.$unVisiteur['id']) }}" class="btn btn-success">Edit</a> --}}
 
-                <form action="{{ route('chemin_supprimerVisiteur', ['id' => $unVisiteur['id']]) }}" method="post">
+                <form action="{{ route('chemin_confirmationSupprimer', ['id' => $unVisiteur['id']]) }}" method="get">
                     {{ csrf_field() }}
                     <input type="hidden" name="id" value="{{$unVisiteur['id']}}">
                     <button type="submit" name="submit">Supprimer</button> 
                 </form>
             </td>
-
-            <!--<td>
-                <form action="{{ route('chemin_supprimerVisiteur') }}" method="post">
-                    {{ csrf_field() }}
-                    <input type="hidden" name="id" value="{{$unVisiteur['id']}}">
-                    <button type="submit" name="submit">Supprimer</button>
-                </form>
-            </td>-->
           </tr>
             @endforeach
         </table>

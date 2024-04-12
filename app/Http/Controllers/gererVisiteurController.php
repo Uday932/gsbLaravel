@@ -113,9 +113,18 @@ class gererVisiteurController extends Controller {
         }
     }
 
+    public function ConfirmationSupprimer($id)
+    {
+        if(session('visiteur') != null) {
+            $visiteur = session('visiteur');
+            $user = PdoGsb::afficherLeVisiteur($id);
+            return view('confirmationSupprimer')->with('user', $user)->with('visiteur',$visiteur);;
+        }
+    }
+
     public function supprimerVisiteur($id) 
     {
-        if(session("visiteur") != null) {
+        if(session('visiteur') != null) {
             $visiteur = session('visiteur');
             $valeurFonction = PdoGsb::supprimerVisiteur($id);
             $lesVisiteurs = PdoGsb::afficherVisiteurs();
