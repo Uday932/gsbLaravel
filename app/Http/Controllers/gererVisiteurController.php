@@ -28,6 +28,7 @@ class gererVisiteurController extends Controller {
             $view = view('ajouterVisiteur')
                     ->with('visiteur',$visiteur)
                     ->with('message',"")
+                    ->with('erreurs', null)
                     ->with ('method',$request->method());
             return $view;
         }
@@ -48,14 +49,24 @@ class gererVisiteurController extends Controller {
             $ville = $request['ville'];
             $time = strtotime($request['DE']);
             $newformat = date('Y-m-d',$time);
-            $message = "Les informations ont bien été ajoutés.";
-            PdoGsb::majVisiteur($nom,$prenom,$login,$adresse,$cp,$ville,$newformat);                  
+
             $view = view('ajouterVisiteur')
                     ->with('visiteur',$visiteur)
-                    ->with('message',$message)
                     ->with ('method',$request->method());
-                    $erreurs = null;
-            return $view;
+
+            if(date($time))
+            {
+                $message = "Les informations du visiteur ont correctement été ajoutées.";
+                $erreurs = null;
+                PdoGsb::addVisiteur($nom,$prenom,$login,$adresse,$cp,$ville,$newformat);
+            }
+            else {
+                $erreurs[] = "La date doit être au format JJ/MM/YYYY. Veuillez réessayer.";
+                $message = '';
+            }                  
+                
+            return $view->with('erreurs',$erreurs)
+                        ->with('message',$message);
         }
         else{
             return view('connexion')->with('erreurs',null);

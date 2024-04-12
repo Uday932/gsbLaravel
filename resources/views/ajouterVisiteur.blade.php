@@ -7,7 +7,7 @@
         <div class="corpsForm">
             <fieldset>
                 <legend>Veuillez écrire les informations du visiteur</legend>
-                {{-- @includeWhen($erreurs != null, 'msgerreurs', ['erreurs' => $erreurs]) --}}
+                @includeWhen($erreurs != null, 'msgerreurs', ['erreurs' => $erreurs])
                 @includeWhen($message != "", 'message', ['message' => $message])
                     <p>
                     <div>
@@ -29,7 +29,7 @@
                     </br>
 
                     <div>
-                    <input type="text" name = "cp" required>
+                    <input type="text" name = "cp" minlength="5" maxlength="5" required>
                     <label name = "cp" for="cp">Code Postal : </label>
                     </div>
                     </br>

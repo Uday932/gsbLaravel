@@ -232,27 +232,27 @@ class PdoGsb{
 		return $login;
 	}
 
-	// public function majVisiteur($nom,$prenom,$login,$adresse,$cp,$ville,$de){
-	// 	$id = Str::random(3);
-	// 	$mdp = Str::random(5);
-	// 	$req = "INSERT INTO visiteur (id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche)
-	// 	VALUES (:id,:nom,:prenom,:login,:mdp,:adresse,:cp,:ville,:dateEmbauche)";
-	// 	$res = $this->monPdo->prepare($req);
+	public function addVisiteur($nom,$prenom,$login,$adresse,$cp,$ville,$de){
+		$id = Str::random(3);
+		$mdp = Str::random(5);
+		$req = "INSERT INTO visiteur (id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche)
+		VALUES (:id,:nom,:prenom,:login,:mdp,:adresse,:cp,:ville,:dateEmbauche)";
+		$res = $this->monPdo->prepare($req);
 
-	// 	$res->bindParam(':id', $id, PDO::PARAM_STR);
-	// 	$res->bindParam(':nom', $nom, PDO::PARAM_STR); 
-	// 	$res->bindParam(':prenom', $prenom, PDO::PARAM_STR); 
-	// 	$res->bindParam(':login', $login, PDO::PARAM_STR);
-	// 	$res->bindParam(':mdp', $mdp, PDO::PARAM_STR);
-	// 	$res->bindParam(':adresse', $adresse, PDO::PARAM_STR); 
-	// 	$res->bindParam(':cp', $cp, PDO::PARAM_STR); 
-	// 	$res->bindParam(':ville', $ville, PDO::PARAM_STR); 
-	// 	$res->bindParam(':dateEmbauche', $de, PDO::PARAM_STR);  
+		$res->bindParam(':id', $id, PDO::PARAM_STR);
+		$res->bindParam(':nom', $nom, PDO::PARAM_STR); 
+		$res->bindParam(':prenom', $prenom, PDO::PARAM_STR); 
+		$res->bindParam(':login', $login, PDO::PARAM_STR);
+		$res->bindParam(':mdp', $mdp, PDO::PARAM_STR);
+		$res->bindParam(':adresse', $adresse, PDO::PARAM_STR); 
+		$res->bindParam(':cp', $cp, PDO::PARAM_STR); 
+		$res->bindParam(':ville', $ville, PDO::PARAM_STR); 
+		$res->bindParam(':dateEmbauche', $de, PDO::PARAM_STR);  
 
-	// 	$res->execute();
-	// 	$laLigne = $res->fetchAll(PDO::FETCH_ASSOC);
-	// 	return $laLigne;
-	// }
+		$res->execute();
+		$laLigne = $res->fetchAll(PDO::FETCH_ASSOC);
+		return $laLigne;
+	}
 
 	public function afficherLeVisiteur($id)
 	{

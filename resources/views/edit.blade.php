@@ -32,7 +32,7 @@
                     </br>
 
                     <div>
-                    <input type="text" name = "cp" value="{{ $user['cp'] }}" required>
+                    <input type="text" name = "cp" minlength="5" maxlength="5" value="{{ $user['cp'] }}" required>
                     <label name = "cp" for="cp">Code Postal : </label>
                     </div>
                     </br>
