@@ -17,7 +17,7 @@ class gererVisiteurController extends Controller {
             //$visiteur = session('visiteur');
             return view('listevisiteur')->with('lesVisiteurs', $lesVisiteurs)->with('visiteur',$visiteur);;
         } else {
-            return redirect()->route('connexion')->with('erreurs', null);
+            return view('connexion')->with('erreurs', null);
         }
     }
 
@@ -84,6 +84,9 @@ class gererVisiteurController extends Controller {
             ->with('erreurs',null)
             ->with('message',"");
         }
+        else {
+            return view('connexion')->with('erreurs',null);
+        }
     }
 
     public function saveEdit(Request $request, $id)
@@ -122,6 +125,9 @@ class gererVisiteurController extends Controller {
             return $view->with('erreurs',$erreurs)
                         ->with('message',$message);
         }
+        else {
+            return view('connexion')->with('erreurs',null);
+        }
     }
 
     public function ConfirmationSupprimer($id)
@@ -130,6 +136,9 @@ class gererVisiteurController extends Controller {
             $visiteur = session('visiteur');
             $user = PdoGsb::afficherLeVisiteur($id);
             return view('confirmationSupprimer')->with('user', $user)->with('visiteur',$visiteur);;
+        }
+        else {
+            return view('connexion')->with('erreurs',null);
         }
     }
 
@@ -141,48 +150,21 @@ class gererVisiteurController extends Controller {
             $lesVisiteurs = PdoGsb::afficherVisiteurs();
             return view('listevisiteur')->with('lesVisiteurs', $lesVisiteurs)->with('visiteur',$visiteur);;
         }
-    }
-
-    /*public function supprimerVisiteur(Request $request)
-    {
-        $visiteur = session('visiteur');
-        $idVisiteur = $visiteur['id'];              
-        $nom = $request['nom'];                             
-        $prenom = $request['prenom'];
-        $login = PdoGsb::genererLogin($prenom,$nom);
-        $adresse = $request['adresse'];
-        $cp = $request['cp'];
-        $ville = $request['ville'];
-        $time = strtotime($request['DE']);
-        $newformat = date('Y-m-d',$time);
-        if( session('visiteur') != null){
-            $visiteur = session('visiteur');
-            $leVisiteur = PdoGsb::supprimerVisiteurs($nom,$prenom,$login,$adresse,$cp,$ville,$time,$newformat);
-            return view('listevisiteur')
-                ->with('leVisiteur',$leVisiteur)
-                ->with('visiteur',$visiteur)
-                ->with('message',"");
+        else {
+            return view('connexion')->with('erreurs',null);
         }
-    }*/
+    }
 
     public function genererPDFVisiteurs()
     {
-        $visiteur = session('visiteur');
         if( session('visiteur') != null) {
+        $visiteur = session('visiteur');
         $visiteurs = PdoGsb::afficherVisiteursParDE();
         $pdf = PDF::loadView('listeVisiteurPDF', compact('visiteurs'));
         return $pdf->download('liste_visiteur.pdf');
         }
-    }
-
-    /*function genEtat() {
-        if (session()->has('visiteur')) {
-            $visiteur = session('visiteur');
-            $lesVisiteurs = PdoGsb::afficherVisiteurs();
-            //$visiteur = session('visiteur');
-            return view('listevisiteur')->with('lesVisiteurs', $lesVisiteurs)->with('visiteur',$visiteur);;
-        } else {
-            return redirect()->route('connexion')->with('erreurs', null);
+        else {
+            return view('connexion')->with('erreurs',null);
         }
-    }*/
+    }
 }
