@@ -11,19 +11,19 @@
                 @includeWhen($message != "", 'message', ['message' => $message])
                     <p>
                     <div>
-                    <input type = "text" name = "nom" required> 
+                    <input type = "text" name = "nom" minlength="1" maxlength="30" required> 
                     <label name = "nom" for="nom">Nom : </label>
                     </div>
                     </br>
 
                     <div>
-                    <input type="text" name = "prenom" required>
+                    <input type="text" name = "prenom" minlength="1" maxlength="30" required>
                     <label name = "prenom" for="prenom">Prénom : </label>  
                     </div>   
                     </br>
 
                     <div>
-                    <input type="text" name = "adresse" required>
+                    <input type="text" name = "adresse" minlength="1" maxlength="30" required>
                     <label name = "adresse" for="adresse">Adresse : </label>
                     </div>
                     </br>
@@ -35,13 +35,13 @@
                     </br>
 
                     <div>
-                    <input type="text" name = "ville" required>
+                    <input type="text" name = "ville" minlength="1" maxlength="30" required>
                     <label name = "ville" for="ville">Ville : </label>
                     </div>
                     </br>
                     
                     <div>
-                    <input type="text" name = "DE" required>
+                    <input type="date" name = "DE" maxlength="10" required>
                     <label name = "DE" for="DE">Date Embauche : </label>
                     </div>
                     </p>

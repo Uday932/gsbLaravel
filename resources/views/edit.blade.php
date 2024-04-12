@@ -13,20 +13,20 @@
                     <p>
                     <div>
                     
-                    <input type = "text" name = "nom" value="{{ $user['nom'] }}" required> 
+                    <input type = "text" name = "nom" minlength="1" maxlength="30" required value="{{ $user['nom'] }}"> 
                     <label name = "nom" for="nom">Nom : </label>
                     
                     </div>
                     </br>
 
                     <div>
-                    <input type="text" name = "prenom" value="{{ $user['prenom'] }}" required>
+                    <input type="text" name = "prenom" minlength="1" maxlength="30" required value="{{ $user['prenom'] }}" required>
                     <label name = "prenom" for="prenom">Prénom : </label>  
                     </div>   
                     </br>
 
                     <div>
-                    <input type="text" name = "adresse" value="{{ $user['adresse'] }}" required>
+                    <input type="text" name = "adresse" minlength="1" maxlength="30" required value="{{ $user['adresse'] }}" required>
                     <label name = "adresse" for="adresse">Adresse : </label>
                     </div>
                     </br>
@@ -38,13 +38,13 @@
                     </br>
 
                     <div>
-                    <input type="text" name = "ville" value="{{ $user['ville'] }}" required>
+                    <input type="text" name = "ville" minlength="1" maxlength="30" required value="{{ $user['ville'] }}" required>
                     <label name = "ville" for="ville">Ville : </label>
                     </div>
                     </br>
                     
                     <div>
-                    <input type="text" name = "DE" value="{{ $user['dateEmbauche'] }}" required>
+                    <input type="date" name = "DE" maxlength="10" required value="{{ $user['dateEmbauche'] }}" required>
                     <label name = "DE" for="DE">Date Embauche : </label>
                     </div>
                     </p>
