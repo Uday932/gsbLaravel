@@ -71,6 +71,22 @@ Route::post('sauvegarderVisiteur',[
 
 //3.1
 
+//Gestionnaire
+
+Route::get('/',[
+    'as' => 'chemin_connexionG',
+    'uses' => 'connexionControllerG@connecterG'
+]);
+
+
+Route::post('/',[
+    'as'=>'chemin_validerG',
+    'uses'=>'connexionControllerG@validerG'
+]);
+Route::get('deconnexion',[
+    'as'=>'chemin_deconnexion',
+    'uses'=>'connexionControllerG@deconnecterG'
+]);
 
 Route::get('supprimerVisiteur',[
         'as'=>'chemin_supprimerVisiteur',
@@ -102,7 +118,7 @@ Route::get('confirmationSupprimer{id}',[
 Route::post('supprimerVisiteur{id}',[
         'as'=>'chemin_supprimerVisiteur',
         'uses'=>'gererVisiteurController@supprimerVisiteur'
-]);                                                         
+]);
 
         /*-------------------- Mission 2B ---------------------------*/
 

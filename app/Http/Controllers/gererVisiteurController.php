@@ -11,22 +11,22 @@ use PDF;
 
 class gererVisiteurController extends Controller {
     function voirVisiteur() {
-        if (session()->has('visiteur')) {
-            $visiteur = session('visiteur');
+        if (session()->has('gestionnaire')) {
+            $gestionnaire = session('gestionnaire');
             $lesVisiteurs = PdoGsb::afficherVisiteurs();
             //$visiteur = session('visiteur');
-            return view('listevisiteur')->with('lesVisiteurs', $lesVisiteurs)->with('visiteur',$visiteur);;
+            return view('listevisiteur')->with('lesVisiteurs', $lesVisiteurs)->with('gestionnaire',$gestionnaire);;
         } else {
             return view('connexion')->with('erreurs', null);
         }
     }
 
     function saisirVisiteur(Request $request){
-        if( session('visiteur') != null){
-            $visiteur = session('visiteur');
-            $idVisiteur = $visiteur['id'];
+        if( session('gestionnaire') != null){
+            $gestionnaire = session('gestionnaire');
+            $idGestionnaire = $gestionnaire['id'];
             $view = view('ajouterVisiteur')
-                    ->with('visiteur',$visiteur)
+                    ->with('gestionnaire',$gestionnaire)
                     ->with('message',"")
                     ->with('erreurs', null)
                     ->with ('method',$request->method());
@@ -38,10 +38,10 @@ class gererVisiteurController extends Controller {
     }
 
     public function sauvegarderVisiteur(Request $request){
-        if( session('visiteur') != null){
-            $visiteur = session('visiteur');
-            $idVisiteur = $visiteur['id'];              
-            $nom = $request['nom'];                            
+        if( session('gestionnaire') != null){
+            $gestionnaire = session('gestionnaire');
+            $idGestionnaire = $gestionnaire['id'];
+            $nom = $request['nom'];
             $prenom = $request['prenom'];
             $login = PdoGsb::genererLogin($prenom,$nom);
             $adresse = $request['adresse'];
@@ -51,7 +51,7 @@ class gererVisiteurController extends Controller {
             $newformat = date('Y-m-d',$time);
 
             $view = view('ajouterVisiteur')
-                    ->with('visiteur',$visiteur)
+                    ->with('gestionnaire',$gestionnaire)
                     ->with ('method',$request->method());
 
             if(date($time))
@@ -63,8 +63,8 @@ class gererVisiteurController extends Controller {
             else {
                 $erreurs[] = "La date doit être au format JJ/MM/YYYY. Veuillez réessayer.";
                 $message = '';
-            }                  
-                
+            }
+
             return $view->with('erreurs',$erreurs)
                         ->with('message',$message);
         }
@@ -75,11 +75,11 @@ class gererVisiteurController extends Controller {
 
     public function edit($id)
     {
-        if( session('visiteur') != null){
-        $visiteur = session('visiteur');
-        $user = PdoGsb::afficherLeVisiteur($id); 
+        if( session('gestionnaire') != null){
+        $gestionnaire = session('gestionnaire');
+        $user = PdoGsb::afficherLeVisiteur($id);
         return view('edit')
-            ->with('visiteur', $visiteur)
+            ->with('gestionnaire', $gestionnaire)
             ->with('user', $user)
             ->with('erreurs',null)
             ->with('message',"");
@@ -91,9 +91,9 @@ class gererVisiteurController extends Controller {
 
     public function saveEdit(Request $request, $id)
     {
-        if( session('visiteur') != null){
+        if( session('gestionnaire') != null){
             // Utilisez $request pour accéder aux données du formulaire
-            $visiteur = session('visiteur');
+            $gestionnaire = session('gestionnaire');
             $nom = $request->input('nom');
             $prenom = $request->input('prenom');
             $adresse = $request->input('adresse');
@@ -105,12 +105,12 @@ class gererVisiteurController extends Controller {
 
             // Appel à la fonction de mise à jour avec les bonnes données
             $valeurFonction = PdoGsb::updateVisiteur($id, $nom, $prenom, $adresse, $cp, $ville, $dateEmbauche);
-            
+
             // Redirection vers la page d'édition avec un message de succès
 
-            $user = PdoGsb::afficherLeVisiteur($id); 
+            $user = PdoGsb::afficherLeVisiteur($id);
             $view = view('edit')
-                    ->with('visiteur', $visiteur)
+                    ->with('gestionnaire', $gestionnaire)
                     ->with('user', $user);
 
             if($valeurFonction == true)
@@ -132,23 +132,23 @@ class gererVisiteurController extends Controller {
 
     public function ConfirmationSupprimer($id)
     {
-        if(session('visiteur') != null) {
-            $visiteur = session('visiteur');
+        if(session('gestionnaire') != null) {
+            $gestionnaire = session('gestionnaire');
             $user = PdoGsb::afficherLeVisiteur($id);
-            return view('confirmationSupprimer')->with('user', $user)->with('visiteur',$visiteur);;
+            return view('confirmationSupprimer')->with('user', $user)->with('gestionnaire',$gestionnaire);;
         }
         else {
             return view('connexion')->with('erreurs',null);
         }
     }
 
-    public function supprimerVisiteur($id) 
+    public function supprimerVisiteur($id)
     {
-        if(session('visiteur') != null) {
-            $visiteur = session('visiteur');
+        if(session('gestionnaire') != null) {
+            $gestionnaire = session('gestionnaire');
             $valeurFonction = PdoGsb::supprimerVisiteur($id);
             $lesVisiteurs = PdoGsb::afficherVisiteurs();
-            return view('listevisiteur')->with('lesVisiteurs', $lesVisiteurs)->with('visiteur',$visiteur);;
+            return view('listevisiteur')->with('lesVisiteurs', $lesVisiteurs)->with('gestionnaire',$gestionnaire);;
         }
         else {
             return view('connexion')->with('erreurs',null);
@@ -157,8 +157,8 @@ class gererVisiteurController extends Controller {
 
     public function genererPDFVisiteurs()
     {
-        if( session('visiteur') != null) {
-        $visiteur = session('visiteur');
+        if( session('gestionnaire') != null) {
+        $gestionnaire = session('gestionnaire');
         $visiteurs = PdoGsb::afficherVisiteursParDE();
         $pdf = PDF::loadView('listeVisiteurPDF', compact('visiteurs'));
         return $pdf->download('liste_visiteur.pdf');

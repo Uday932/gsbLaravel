@@ -7,9 +7,9 @@ use PdoGsb;
 class connexionController extends Controller
 {
     function connecter(){
-        
+
         return view('connexion')->with('erreurs',null);
-    } 
+    }
     function valider(Request $request){
         $login = $request['login'];
         $mdp = $request['mdp'];
@@ -22,12 +22,12 @@ class connexionController extends Controller
             session(['visiteur' => $visiteur]);
             return view('sommaire')->with('visiteur',session('visiteur'));
         }
-    } 
+    }
     function deconnecter(){
             session(['visiteur' => null]);
             return redirect()->route('chemin_connexion');
-       
-           
+
+
     }
-       
+
 }
